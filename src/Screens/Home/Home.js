@@ -1,12 +1,21 @@
-import { StyleSheet, View,StatusBar,Text,Image,Switch } from 'react-native'
+import { StyleSheet, View,StatusBar,Text,Image,Switch,TouchableOpacity } from 'react-native'
 import React,{useState} from 'react'
 import GlobalHeader from '../../Components/GlobalHeader'
 import { RFPercentage } from 'react-native-responsive-fontsize'
 import {LinearGradient} from 'react-native-linear-gradient'
 import { heightPercentageToDP as hp } from 'react-native-responsive-screen'
+import { totalExpanses,totalInvestment } from '../../modules/Home/Actions'
+import { useSelector,useDispatch } from 'react-redux'
+
 const Home = () => {
+
+  const dispatch = useDispatch();
   const [isEnabled, setIsEnabled] = useState(false);
-  const toggleSwitch = () => setIsEnabled(!isEnabled);
+  const toggleSwitch = () => {
+    setIsEnabled(!isEnabled)
+  };
+
+  const investmentData = useSelector((state)=> state.Home.investment);
   
   return (
     <View style={{flex:1}}>
@@ -22,11 +31,11 @@ const Home = () => {
        colors={['#355C7D','#6C5B7B','#C06C84']}
        style={{flex:0.35,margin:'2%',borderRadius:7,paddingHorizontal:'3%'}}
       > 
-          <View style={{flex:0.2,justifyContent:'flex-end',paddingLeft:'2%',}}>
+          <TouchableOpacity onPress={()=>{dispatch(totalInvestment(20000))}} style={{flex:0.2,justifyContent:'flex-end',paddingLeft:'2%',}}>
             <Text style={{color:'#f5f9fc',fontSize:RFPercentage(3),fontWeight:'500'}}>
               My Portfolio 💰
             </Text>
-          </View>
+          </TouchableOpacity>
 
           <View style={{flex:0.325,flexDirection:'row'}}>
             <View style={{flex:0.5,flexDirection:'row',borderRightWidth:0.2,borderRightColor:'#D3d3d3',marginVertical:'2.75%'}}>
