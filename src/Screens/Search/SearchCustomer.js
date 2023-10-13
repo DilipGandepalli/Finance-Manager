@@ -50,7 +50,7 @@ const SearchCustomer = () => {
   return (
     <View style={{flex:1}}>
       <GlobalHeader  name={'Dilip'} showDate/>
-      <View style={{height:hp(7.5),marginHorizontal:'1.75%',borderWidth:1.5,marginTop:'1.5%',borderColor:'#004e92',borderRadius:8,flexDirection:'row',marginBottom:'2%'}}>
+      <View style={{height:hp(7),marginHorizontal:'1.75%',borderWidth:1.5,marginTop:'2%',borderColor:'#004e92',borderRadius:8,flexDirection:'row',marginBottom:'2%'}}>
         <View style={{justifyContent:'center',alignItems:'center',width:hp(6),marginRight:'-1%'}}>
         <AntDesign 
           name='search1'
