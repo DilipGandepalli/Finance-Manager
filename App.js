@@ -11,13 +11,13 @@ import { Store,persistor } from './src/modules/Store';
 const App = () => {
   return (
     <Provider store={Store}>
-      {/* <PersistGate loading={null} persistor={persistor}> */}
+      <PersistGate loading={null} persistor={persistor}>
         <SafeAreaProvider>
             <NavigationContainer>
                 <MainNavigation/>
             </NavigationContainer>
         </SafeAreaProvider>
-     {/* </PersistGate> */}
+     </PersistGate>
     </Provider>
   )
 }
