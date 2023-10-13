@@ -8,9 +8,9 @@ import Feather from 'react-native-vector-icons/Feather'
 const HeaderRight = (props) => {
     
   return (
-    <View style={{flexDirection:'row',justifyContent:'space-between'}}>
+    <View style={{flexDirection:'row',justifyContent:'space-between',marginBottom:'1%'}}>
         <View style={{width:wp(40),justifyContent:'flex-end',paddingBottom:'2%'}}>
-            <Text style={{color:'#fff',fontSize:RFPercentage(3.25),textAlign:'center',paddingBottom:'1.5%'}}>{Moment().format("dddd")}</Text>
+            <Text style={{color:'#fff',fontSize:RFPercentage(3.1),textAlign:'center',paddingBottom:'1.5%'}}>{Moment().format("dddd")}</Text>
             <Text style={{color:'#fff',fontSize:RFPercentage(2.75),textAlign:'center'}}>{Moment().format("DD, MMM YYYY")}</Text>
         </View>
         {props.logouts &&
