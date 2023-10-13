@@ -1,5 +1,5 @@
 import { Image, Text, View } from 'react-native'
-import React from 'react';
+import React,{useState} from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Home from '../Screens/Home/Home';
 import AddCustomer from '../Screens/Add/AddCustomer';
@@ -15,7 +15,7 @@ import { heightPercentageToDP as hp, widthPercentageToDP as wp } from 'react-nat
 
 const BottomTabNavigator = () => {
     const Tab= createBottomTabNavigator()
-
+    const [margin,setMargin] = useState(true)
   return (
     <Tab.Navigator
         initialRouteName='Home'
@@ -33,6 +33,7 @@ const BottomTabNavigator = () => {
             
             },
             tabBarLabelPosition:'below-icon',
+            tabBarHideOnKeyboard:true
             
         }}
         >
@@ -84,24 +85,27 @@ const BottomTabNavigator = () => {
             options={{headerShown:false,
                 tabBarIcon:({focused}) => (
                     <View style={{
-                        height:hp(13),
-                        width:hp(13),
-                        justifyContent:'center',
+                        height:focused ? hp(6) :hp(13),
+                        width: focused ? hp(11) :hp(13),
+                        justifyContent:focused ?'flex-start':'center',
                         alignItems:'center',
-                        marginTop:'-50%',
-                        borderRadius:50,
-                        borderWidth:4,
-                        borderColor:'#f2f2f2',
-                        backgroundColor:'#f2f2f2',
+                        marginTop:focused ?'0%':'-50%',
+                        borderRadius:focused ? 0:50,
+                        borderWidth:focused ? 0 :4,
+                        borderColor:focused?'blue':'#f2f2f2',
+                        backgroundColor:focused?'#fff':'#f2f2f2',
                     }}>
-                        <AntDesign name="pluscircle" style= {{
-                            color:'#003492',
-                            fontSize:RFPercentage(11),
-                        }}/>
+                        { focused ? 
+                            
+                            <Image source={require('../../assets/Icons/plusIcon.png')} style={{height:hp(7),width:hp(7),marginTop:'2.5%'}}/>                
+                           :
+                           <AntDesign name="pluscircle" style= {{
+                            color:focused?'#6f91d1' :'#003492',
+                            fontSize:focused ? RFPercentage(6) :RFPercentage(11),
+                        }}/>  }
                     </View>
                     
-                )
-
+                ),
             }}  
         />
         <Tab.Screen
@@ -113,7 +117,7 @@ const BottomTabNavigator = () => {
                         color:focused ? '#003492':'#6f91d1' ,
                         fontSize:RFPercentage(1.9),
                         fontWeight:focused ?'600' :'400',
-                    }}>Debit</Text>
+                    }}>Debt</Text>
                 ),
                 tabBarIcon:({focused})=>(
                     focused ?
