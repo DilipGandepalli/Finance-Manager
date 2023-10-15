@@ -1,87 +1,95 @@
-import { StyleSheet, Text, View,Image,TextInput, ScrollView,TouchableOpacity } from 'react-native'
-import React from 'react'
+import { StyleSheet, Text, View,Image,TextInput, ScrollView,Button, TouchableOpacity } from 'react-native'
+import React, { useState } from 'react'
 import GlobalHeader from '../../Components/GlobalHeader'
 import { heightPercentageToDP as hp, widthPercentageToDP as wp } from 'react-native-responsive-screen'
-import { RFPercentage } from 'react-native-responsive-fontsize'
-
+import { RFPercentage } from 'react-native-responsive-fontsize';
+import { iconData } from './IconData';
+import TextInputWithIcon from '../../Components/Input';
+import { useDispatch } from 'react-redux';
+import { addNewCustomer, totalExpanses, totalInvestment } from '../../modules/Home/Actions';
+import { useSelector } from 'react-redux';
+import Modal from 'react-native-modal'
 const AddCustomer = () => {
-  const iconData = [
-    {
-      'placeholderText':'Enter Customer Name',
-      'imageSource':require("../../../assets/Icons/userIcon.png"),
-      'height':'4.15',
-      'width':'3.7'
-    },
-    {
-      'placeholderText':'Enter Address',
-      'imageSource':require("../../../assets/Icons/Address.png"),
-      'height':'4.5',
-      'width':'3.75'
-    },
-    {
-      'placeholderText':'Enter Mobile Number',
-      'imageSource':require("../../../assets/Icons/mobileIcon.png"),
-      'height':'4.55',
-      'width':'4.25'
-    },
-    {
-      'placeholderText':'Enter Nominee Name',
-      'imageSource':require("../../../assets/Icons/Nominee.png"),
-      'height':'4.25',
-      'width':'5.25'
-    },
-    {
-      'placeholderText':'Enter Total Amount',
-      'imageSource':require("../../../assets/Icons/amountIcon.jpg"),
-      'height':'7',
-      'width':'4.35'
-    },
-    {
-      'placeholderText':'Enter Interest Rate',
-      'imageSource':require("../../../assets/Icons/interestIcon.png"),
-      'height':'4.25',
-      'width':'4.25'
-    },
-    {
-      'placeholderText':'Enter Surity Details',
-      'imageSource':require("../../../assets/Icons/surity2.png"),
-      'height':'6',
-      'width':'5.5'
-    }
-  ]
+  const dispatch=useDispatch();
 
+  const investmentData = useSelector((state)=> state.Home.customerDetails)
+  console.log(investmentData,'usu')
+  const [tempData,setTempData] = useState()
+  const [isVisible,setIsVisible] = useState(false)
 
-  const TextInputWithIcon = ()=>{
-    return(
-      iconData.map((item,id)=>{
-        return(
-          <View key={id} style={{height:hp(10), flexDirection:'row',marginTop:'2%'}}>
-            <View style={{height:hp(8),flex:0.175,flexDirection:'row',justifyContent:'center',alignItems:'center',}}> 
-              <Image source={item.imageSource} style={{height:hp(item.height),width:hp(item.width),tintColor:'#003492'}}/>
-            </View>
-            <View style={{height:hp(8),flex:0.85,borderBottomWidth:1,borderBottomColor:'#003492',marginRight:'2%'}}>
-              <Text style={{fontWeight:'400',color:'#000',fontSize:RFPercentage(2)}}>{item.placeholderText}</Text>
-              <TextInput 
-                placeholderTextColor={'#003492'}
-                style={{fontSize:RFPercentage(2.5),fontWeight:'400'}}
-              />
-            </View>
-          </View>
+  const formData ={
+    Name:'',
+    Address:'',
+    mobileNumber:'',
+    Nominee:'',
+    totalAmount:'',
+    interestRate:'',
+    surityDetails:'',
+    otherDetails:'',
+    Date:''
+  }
+  
+  const handleInputText = (text, field) => {
+      formData[field] = text
+  };
 
-        )
-      })
-      
-          )
+  const onSubmit = ()=>{
+    setIsVisible(true)
+    setTempData(formData)
   }
 
-
-
+  const onPressYes = () =>{
+    setIsVisible(false)
+    dispatch(addNewCustomer(tempData))
+  }
+  
   return (
     <>
       <GlobalHeader name={'Dilip'} showDate/>
-        <ScrollView style={{flex:1}} contentContainerStyle={{}}>
-          <TextInputWithIcon/>
+      <View style={{flex:1}}>
+        <ScrollView style={{marginTop:'4%'}} contentContainerStyle={{}}>
+          {
+            iconData.map((item,id)=>{
+              return(
+                <TextInputWithIcon key={id} item={item} onChangeText={(text)=>{handleInputText(text,item.field)}} />
+              )
+            })
+          }
         </ScrollView>
+        <TouchableOpacity style={{
+            height:hp(5.5),
+            left: 0,
+            right: 0,
+            bottom: 0,
+            backgroundColor: '#214ea3',
+            justifyContent:'center',
+            alignItems:'center',
+          }} 
+          onPress={()=>{onSubmit()}}
+          >
+          <Text style={{color:'#fff',fontSize:RFPercentage(3.25), fontWeight:'500'}}>Add</Text>
+        </TouchableOpacity>
+      </View>
+      <Modal isVisible={isVisible} onBackdropPress={()=>{setIsVisible(false)}} animationIn={'slideInDown'}>
+        <View style={{alignSelf:'center',height:hp(18),width:wp(75),backgroundColor:'#fff',borderRadius:5}}>
+          <View style={{flex:0.5,alignItems:'center'}}>
+            <Text style={{fontSize:RFPercentage(3),fontWeight:'400',color:'#000',textAlign:'center',paddingTop:'5%'}}>
+              Do you Want to add these Customer?
+            </Text>
+          </View>
+          <View style={{flex:0.5,flexDirection:'row',justifyContent:'center',alignItems:'center'}}>
+            <TouchableOpacity style={{height:hp(4.6),backgroundColor:'#6f91d1',width:wp(27),alignItems:'center',justifyContent:'center',marginHorizontal:'3%',borderRadius:5}}
+              onPress={()=>{setIsVisible(false)}}
+            >
+              <Text style={{color:'#fff',fontSize:RFPercentage(2.5),fontWeight:'500'}}>Cancel</Text>
+            </TouchableOpacity>
+            <TouchableOpacity style={{height:hp(4.6),backgroundColor:'#6f91d1',width:wp(27),alignItems:'center',justifyContent:'center',marginHorizontal:'3%',borderRadius:5}}
+              onPress={()=>{onPressYes()}}>
+              <Text style={{color:'#fff',fontSize:RFPercentage(2.5),fontWeight:'500'}}>Yes</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+      </Modal>
         
     </>
   )

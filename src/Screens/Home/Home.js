@@ -13,7 +13,7 @@ const styles = StyleSheet.create({
     flex:1
   },
   portfolioContainer:{
-    flex:0.35,
+    flex:0.325,
     margin:'2%',
     borderRadius:7,
     paddingHorizontal:'3%'

@@ -1,8 +1,15 @@
-import { TOTAL_INVESTMENT,TOTAL_EXPANSES } from "./Constants";
+import { 
+    TOTAL_INVESTMENT,
+    TOTAL_EXPANSES,
+    ADD_CUSTOMER,
+    REMOVE_CUSTOMER,
+
+} from "./Constants";
 
 const initialState = {
     investment:[],
-    expanses:[]
+    expanses:[],
+    customerDetails:[]
 }
 const HomeReducer = (state=initialState,action)=>{
     switch(action.type){        
@@ -15,8 +22,15 @@ const HomeReducer = (state=initialState,action)=>{
         case TOTAL_EXPANSES:
             return{
                 ...state,
-                expanses:action.payload
-            }
+                expanses:[...state.expanses,action.payload ]
+            };
+        case ADD_CUSTOMER:
+            return {
+                ...state,
+                // customerDetails: [],
+                customerDetails: [...state.customerDetails, action.payload],
+                
+            };
         default:
             return state;
     }

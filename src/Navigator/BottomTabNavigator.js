@@ -1,5 +1,5 @@
 import { Image, Text, View } from 'react-native'
-import React,{useState} from 'react';
+import React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Home from '../Screens/Home/Home';
 import AddCustomer from '../Screens/Add/AddCustomer';
@@ -15,20 +15,17 @@ import { heightPercentageToDP as hp, widthPercentageToDP as wp } from 'react-nat
 
 const BottomTabNavigator = () => {
     const Tab= createBottomTabNavigator()
-    const [margin,setMargin] = useState(true)
   return (
     <Tab.Navigator
         initialRouteName='Home'
         screenOptions={{
             tabBarStyle:{
-                height:hp(8.5),
+                height:hp(7),
                 alignItems:'center',
                 paddingBottom:'1%',
                 backgroundColor:'#fff',
                 borderTopColor:"#D3D3D3",
-                marginBottom:'2%',
-                marginHorizontal:'2%',
-                borderRadius:10,
+                borderTopEndRadius:10,
                 elevation:17
             
             },
@@ -44,16 +41,16 @@ const BottomTabNavigator = () => {
                 tabBarLabel:({focused})=>(
                     <Text style={{
                         color:focused ? '#003492':'#6f91d1' ,
-                        fontSize:RFPercentage(1.9),
+                        fontSize:RFPercentage(1.75),
                         fontWeight:focused ?'600' :'400',
                     }}>Home</Text>
                 ),
                 tabBarIcon:({focused})=>(
                     focused ?
-                    <Image style={{height:hp(3.75),width:hp(3.75)}} source={require('../../assets/Icons/HomeIcon.png')}/> :
+                    <Image style={{height:hp(3),width:hp(3)}} source={require('../../assets/Icons/HomeIcon.png')}/> :
                     <Fontisto name="home" style= {{
                         color:focused ? '#000' : '#6f91d1',
-                        fontSize:RFPercentage(3)
+                        fontSize:RFPercentage(2.5)
                     }}/>
                 )
             }}
@@ -65,16 +62,16 @@ const BottomTabNavigator = () => {
                 tabBarLabel:({focused})=>(
                     <Text style={{
                         color:focused ? '#003492':'#6f91d1' ,
-                        fontSize:RFPercentage(1.9),
+                        fontSize:RFPercentage(1.75),
                         fontWeight:focused ?'600' :'400',
                     }}>Search</Text>
                 ),
                 tabBarIcon:({focused})=>(
                     focused ?
-                    <Image style={{height:hp(4),width:hp(4)}} source={require('../../assets/Icons/personSearch.png')}/> :
+                    <Image style={{height:hp(3.25),width:hp(3.25)}} source={require('../../assets/Icons/personSearch.png')}/> :
                     <MaterialIcons name="person-search" style= {{
                         color:focused ? '#000' : '#6f91d1',
-                        fontSize:RFPercentage(4.5)
+                        fontSize:RFPercentage(3.9)
                     }}/>
                 )
             }}  
@@ -85,24 +82,26 @@ const BottomTabNavigator = () => {
             options={{headerShown:false,
                 tabBarIcon:({focused}) => (
                     <View style={{
-                        height:focused ? hp(6) :hp(13),
-                        width: focused ? hp(11) :hp(13),
+                        height:focused ? hp(4.5) :hp(11),
+                        width: focused ? hp(9) :hp(11),
                         justifyContent:focused ?'flex-start':'center',
                         alignItems:'center',
-                        marginTop:focused ?'0%':'-50%',
+                        marginTop:focused ?'0%':'-40%',
                         borderRadius:focused ? 0:50,
-                        borderWidth:focused ? 0 :4,
-                        borderColor:focused?'blue':'#f2f2f2',
+                        borderWidth:focused ? 0 :2,
+                        borderColor:focused?'':'#f2f2f2',
                         backgroundColor:focused?'#fff':'#f2f2f2',
                     }}>
                         { focused ? 
                             
-                            <Image source={require('../../assets/Icons/plusIcon.png')} style={{height:hp(7),width:hp(7),marginTop:'2.5%'}}/>                
+                            <Image source={require('../../assets/Icons/plusIcon.png')} style={{height:hp(5.5),width:hp(5.5),marginTop:'2.5%'}}/>                
                            :
-                           <AntDesign name="pluscircle" style= {{
-                            color:focused?'#6f91d1' :'#003492',
-                            fontSize:focused ? RFPercentage(6) :RFPercentage(11),
-                        }}/>  }
+                            <AntDesign name="pluscircle" style= {{
+                                color:focused?'#6f91d1' :'#003492',
+                                fontSize:focused ? RFPercentage(6) :RFPercentage(9),
+                                }}
+                            />
+                        }
                     </View>
                     
                 ),
@@ -115,13 +114,13 @@ const BottomTabNavigator = () => {
                 tabBarLabel:({focused})=>(
                     <Text style={{
                         color:focused ? '#003492':'#6f91d1' ,
-                        fontSize:RFPercentage(1.9),
+                        fontSize:RFPercentage(1.75),
                         fontWeight:focused ?'600' :'400',
                     }}>Debt</Text>
                 ),
                 tabBarIcon:({focused})=>(
                     focused ?
-                    <Image style={{height:hp(4.5),width:hp(4.5)}} source={require('../../assets/Icons/debtIcon.png')}/> :
+                    <Image style={{height:hp(3.5),width:hp(3.5)}} source={require('../../assets/Icons/debtIcon.png')}/> :
                     <FontAwesome6 name="file-invoice-dollar" style= {{
                         color:focused ? '#000' : '#6f91d1',
                         fontSize:RFPercentage(3)
@@ -137,13 +136,13 @@ const BottomTabNavigator = () => {
                 tabBarLabel:({focused})=>(
                     <Text style={{
                         color:focused ? '#003492':'#6f91d1' ,
-                        fontSize:RFPercentage(1.9),
+                        fontSize:RFPercentage(1.7),
                         fontWeight:focused ?'600' :'400',
                     }}>Expanses</Text>
                 ),
                 tabBarIcon:({focused})=>(
                     focused ?
-                    <Image style={{height:hp(4),width:hp(4)}} source={require('../../assets/Icons/piechart.png')}/> :
+                    <Image style={{height:hp(3.5),width:hp(3.5)}} source={require('../../assets/Icons/piechart.png')}/> :
                     <FontAwesome6 name="chart-pie" style= {{
                         color:focused ? '#000' :'#6f91d1',
                         fontSize:RFPercentage(3)

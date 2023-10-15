@@ -4,40 +4,24 @@ import GlobalHeader from '../../Components/GlobalHeader'
 import { heightPercentageToDP as hp, widthPercentageToDP as wp } from 'react-native-responsive-screen'
 import { RFPercentage } from 'react-native-responsive-fontsize'
 import AntDesign from 'react-native-vector-icons/AntDesign';
+import { useDispatch, useSelector } from 'react-redux';
+import { removeCustomer } from '../../modules/Home/Actions'
 
 const SearchCustomer = () => {
   const [search,setSearch] = useState('');
   const [filteredData, setFilteredData] = useState();
-
-  const Data =[
-    {name:'Dilip Gandepalli',amount:'25,00,000',date:'23/01/22',interest:'2,000'},
-    {name:'Divya',amount:'25,000',date:'23/01/22',interest:'2,000'},  
-    {name:'Sanketh',amount:'25,000',date:'23/01/22',interest:'2000'},  
-    {name:'Moses',amount:'25,000',date:'23/01/22',interest:'2000'},  
-    {name:'Mouli',amount:'25,000',date:'23/01/22',interest:'2000'},  
-    {name:'Viswa',amount:'25,000',date:'23/01/22',interest:'2000'},  
-    {name:'Vardhan',amount:'25,000',date:'23/01/22',interest:'2000'},
-    {name:'Ganesh',amount:'25,000',date:'23/01/22',interest:'2000'}, 
-    {name:'Dilip',amount:'25,000',date:'23/01/22',interest:'2000'},
-    {name:'Divya',amount:'25000',date:'23/01/22',interest:'2000'},  
-    {name:'Sanketh',amount:'25000',date:'23/01/22',interest:'800'},  
-    {name:'Moses',amount:'25000',date:'23/01/22'},  
-    {name:'Mouli',amount:'25000',date:'23/01/22'},  
-    {name:'Viswa',amount:'25000',date:'23/01/22'},  
-    {name:'Vardhan',amount:'25000',date:'23/01/22'},
-    {name:'Ganesh',amount:'25000',date:'23/01/22'},    
-  ]
-
-  const filteredValue = (item,val)=>{
-    if(item){
-      return item.name.toLowerCase().includes(val.toLowerCase())
+  const totalCustomerData = useSelector((state)=> state.Home.customerDetails);
+  const dispatch = useDispatch();
+  console.log(totalCustomerData)
+  const filteredValue = (item,val)=> {
+    if(item !== undefined || item !== null){
+      return item?.Name.toLowerCase().includes(val.toLowerCase())
     }
   }
-
   const searchValue = (text) =>{
     setSearch(text)
     if(text !== ' '){
-      let filterData = Data?.filter((item)=>{
+      let filterData = totalCustomerData?.filter((item)=>{
         return filteredValue(item,text)
       })
       setFilteredData(filterData)
@@ -69,18 +53,18 @@ const SearchCustomer = () => {
           {search?.length === 0 ? (
             <FlatList
               style={{marginHorizontal:'2.25%'}}
-              data={Data}
+              data={totalCustomerData}
               showsVerticalScrollIndicator={false}
               renderItem={(item)=>{
                 return(                  
-                  <View style={{height:hp(9),backgroundColor:'#e0dcdc',marginVertical:'1%',borderRadius:8,flexDirection:'row',alignItems:'center'}}>
-                    <Text style={{color:'#09457a',width:wp(33),textAlign:'center',fontSize:RFPercentage(3),fontWeight:'600'}}> {item.item.name}</Text>
+                  <TouchableOpacity onPress={()=>{}} style={{height:hp(9),backgroundColor:'#e0dcdc',marginVertical:'1%',borderRadius:8,flexDirection:'row',alignItems:'center'}}>
+                    <Text style={{color:'#09457a',width:wp(33),textAlign:'center',fontSize:RFPercentage(3),fontWeight:'600'}}> {item.item?.Name}</Text>
                     <View style={{width:wp(33)}}>
-                      <Text style={{color:'#09457a',textAlign:'center', fontSize:RFPercentage(3.25), fontWeight:'600'}}> {item.item.interest} </Text>
-                      <Text style={{textAlign:'center', fontSize:RFPercentage(2.1),fontWeight:'600',color:'#2980B9'}}>{item.item.amount}</Text>
+                      <Text style={{color:'#09457a',textAlign:'center', fontSize:RFPercentage(3.25), fontWeight:'600'}}> {item.item?.totalAmount} </Text>
+                      <Text style={{textAlign:'center', fontSize:RFPercentage(2.1),fontWeight:'600',color:'#2980B9'}}>{item.item?.Nominee}</Text>
                     </View>
-                    <Text style={{color:'#09457a',width:wp(33),textAlign:'center',fontSize:RFPercentage(2.5),fontWeight:'600'}}> {item.item.date}</Text>
-                  </View>
+                    <Text style={{color:'#09457a',width:wp(33),textAlign:'center',fontSize:RFPercentage(2.5),fontWeight:'600'}}> {item.item?.Address}</Text>
+                  </TouchableOpacity>
                 )
               }}  
             />
@@ -89,12 +73,12 @@ const SearchCustomer = () => {
               filteredData?.map((item,id)=>{
                 return(
                   <View key={id} style={{height:hp(9),backgroundColor:'#e0dcdc',marginVertical:'1%',borderRadius:8,flexDirection:'row',alignItems:'center',marginHorizontal:'2%'}}>
-                    <Text style={{color:'#09457a',width:wp(33),textAlign:'center',fontSize:RFPercentage(3),fontWeight:'600'}}> {item.name}</Text>
+                    <Text style={{color:'#09457a',width:wp(33),textAlign:'center',fontSize:RFPercentage(3),fontWeight:'600'}}> {item?.Name}</Text>
                     <View style={{width:wp(33)}}>
-                      <Text style={{color:'#09457a',textAlign:'center', fontSize:RFPercentage(3.25), fontWeight:'600'}}> {item.interest} </Text>
-                      <Text style={{textAlign:'center', fontSize:RFPercentage(2.1),fontWeight:'600',color:'#2980B9'}}>{item.amount}</Text>
+                      <Text style={{color:'#09457a',textAlign:'center', fontSize:RFPercentage(3.25), fontWeight:'600'}}> {item?.totalAmount} </Text>
+                      <Text style={{textAlign:'center', fontSize:RFPercentage(2.1),fontWeight:'600',color:'#2980B9'}}>{item?.Nominee}</Text>
                     </View>
-                    <Text style={{color:'#09457a',width:wp(33),textAlign:'center',fontSize:RFPercentage(2.5),fontWeight:'600'}}> {item.date}</Text>
+                    <Text style={{color:'#09457a',width:wp(33),textAlign:'center',fontSize:RFPercentage(2.5),fontWeight:'600'}}> {item?.mobileNumber}</Text>
                   </View>
                 )
               })
@@ -108,7 +92,6 @@ const SearchCustomer = () => {
             )
           }
       </View>
-      
     </View>
   )
 }
