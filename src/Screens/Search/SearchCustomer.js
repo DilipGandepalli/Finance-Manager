@@ -4,40 +4,29 @@ import GlobalHeader from '../../Components/GlobalHeader'
 import { heightPercentageToDP as hp, widthPercentageToDP as wp } from 'react-native-responsive-screen'
 import { RFPercentage } from 'react-native-responsive-fontsize'
 import AntDesign from 'react-native-vector-icons/AntDesign';
+import { useDispatch, useSelector } from 'react-redux';
+import Modal from 'react-native-modal';
+import { removeCustomer } from '../../modules/Home/Actions'
 
 const SearchCustomer = () => {
   const [search,setSearch] = useState('');
   const [filteredData, setFilteredData] = useState();
+  const [isVisible,setIsVisible] = useState(false)
+  const [selectedData, setSelectedData] = useState(null);
 
-  const Data =[
-    {name:'Dilip Gandepalli',amount:'25,00,000',date:'23/01/22',interest:'2,000'},
-    {name:'Divya',amount:'25,000',date:'23/01/22',interest:'2,000'},  
-    {name:'Sanketh',amount:'25,000',date:'23/01/22',interest:'2000'},  
-    {name:'Moses',amount:'25,000',date:'23/01/22',interest:'2000'},  
-    {name:'Mouli',amount:'25,000',date:'23/01/22',interest:'2000'},  
-    {name:'Viswa',amount:'25,000',date:'23/01/22',interest:'2000'},  
-    {name:'Vardhan',amount:'25,000',date:'23/01/22',interest:'2000'},
-    {name:'Ganesh',amount:'25,000',date:'23/01/22',interest:'2000'}, 
-    {name:'Dilip',amount:'25,000',date:'23/01/22',interest:'2000'},
-    {name:'Divya',amount:'25000',date:'23/01/22',interest:'2000'},  
-    {name:'Sanketh',amount:'25000',date:'23/01/22',interest:'800'},  
-    {name:'Moses',amount:'25000',date:'23/01/22'},  
-    {name:'Mouli',amount:'25000',date:'23/01/22'},  
-    {name:'Viswa',amount:'25000',date:'23/01/22'},  
-    {name:'Vardhan',amount:'25000',date:'23/01/22'},
-    {name:'Ganesh',amount:'25000',date:'23/01/22'},    
-  ]
 
-  const filteredValue = (item,val)=>{
-    if(item){
-      return item.name.toLowerCase().includes(val.toLowerCase())
+  const totalCustomerData = useSelector((state)=> state.Home.customerDetails);
+  const dispatch = useDispatch();
+  
+  const filteredValue = (item,val)=> {
+    if(item !== undefined || item !== null){
+      return item?.Name.toLowerCase().includes(val.toLowerCase())
     }
   }
-
   const searchValue = (text) =>{
     setSearch(text)
     if(text !== ' '){
-      let filterData = Data?.filter((item)=>{
+      let filterData = totalCustomerData?.filter((item)=>{
         return filteredValue(item,text)
       })
       setFilteredData(filterData)
@@ -69,18 +58,18 @@ const SearchCustomer = () => {
           {search?.length === 0 ? (
             <FlatList
               style={{marginHorizontal:'2.25%'}}
-              data={Data}
+              data={totalCustomerData}
               showsVerticalScrollIndicator={false}
               renderItem={(item)=>{
                 return(                  
-                  <View style={{height:hp(9),backgroundColor:'#e0dcdc',marginVertical:'1%',borderRadius:8,flexDirection:'row',alignItems:'center'}}>
-                    <Text style={{color:'#09457a',width:wp(33),textAlign:'center',fontSize:RFPercentage(3),fontWeight:'600'}}> {item.item.name}</Text>
+                  <TouchableOpacity onPress={()=>{setIsVisible(true),setSelectedData(item.item);}} style={{height:hp(9),backgroundColor:'#e0dcdc',marginVertical:'1%',borderRadius:8,flexDirection:'row',alignItems:'center'}}>
+                    <Text style={{color:'#09457a',width:wp(33),textAlign:'center',fontSize:RFPercentage(3),fontWeight:'600'}}> {item.item?.Name}</Text>
                     <View style={{width:wp(33)}}>
-                      <Text style={{color:'#09457a',textAlign:'center', fontSize:RFPercentage(3.25), fontWeight:'600'}}> {item.item.interest} </Text>
-                      <Text style={{textAlign:'center', fontSize:RFPercentage(2.1),fontWeight:'600',color:'#2980B9'}}>{item.item.amount}</Text>
+                      <Text style={{color:'#09457a',textAlign:'center', fontSize:RFPercentage(3.25), fontWeight:'600'}}> {item.item?.totalAmount} </Text>
+                      <Text style={{textAlign:'center', fontSize:RFPercentage(2.1),fontWeight:'600',color:'#2980B9'}}>{item.item?.Nominee}</Text>
                     </View>
-                    <Text style={{color:'#09457a',width:wp(33),textAlign:'center',fontSize:RFPercentage(2.5),fontWeight:'600'}}> {item.item.date}</Text>
-                  </View>
+                    <Text style={{color:'#09457a',width:wp(33),textAlign:'center',fontSize:RFPercentage(2.5),fontWeight:'600'}}> {item.item?.Address}</Text>
+                  </TouchableOpacity>
                 )
               }}  
             />
@@ -88,14 +77,14 @@ const SearchCustomer = () => {
             filteredData?.length !== 0 ? (
               filteredData?.map((item,id)=>{
                 return(
-                  <View key={id} style={{height:hp(9),backgroundColor:'#e0dcdc',marginVertical:'1%',borderRadius:8,flexDirection:'row',alignItems:'center',marginHorizontal:'2%'}}>
-                    <Text style={{color:'#09457a',width:wp(33),textAlign:'center',fontSize:RFPercentage(3),fontWeight:'600'}}> {item.name}</Text>
+                  <TouchableOpacity onPress={()=>{setIsVisible(true),setSelectedData(item)}} key={id} style={{height:hp(9),backgroundColor:'#e0dcdc',marginVertical:'1%',borderRadius:8,flexDirection:'row',alignItems:'center',marginHorizontal:'2%'}}>
+                    <Text style={{color:'#09457a',width:wp(33),textAlign:'center',fontSize:RFPercentage(3),fontWeight:'600'}}> {item?.Name}</Text>
                     <View style={{width:wp(33)}}>
-                      <Text style={{color:'#09457a',textAlign:'center', fontSize:RFPercentage(3.25), fontWeight:'600'}}> {item.interest} </Text>
-                      <Text style={{textAlign:'center', fontSize:RFPercentage(2.1),fontWeight:'600',color:'#2980B9'}}>{item.amount}</Text>
+                      <Text style={{color:'#09457a',textAlign:'center', fontSize:RFPercentage(3.25), fontWeight:'600'}}> {item?.totalAmount} </Text>
+                      <Text style={{textAlign:'center', fontSize:RFPercentage(2.1),fontWeight:'600',color:'#2980B9'}}>{item?.Nominee}</Text>
                     </View>
-                    <Text style={{color:'#09457a',width:wp(33),textAlign:'center',fontSize:RFPercentage(2.5),fontWeight:'600'}}> {item.date}</Text>
-                  </View>
+                    <Text style={{color:'#09457a',width:wp(33),textAlign:'center',fontSize:RFPercentage(2.5),fontWeight:'600'}}> {item?.mobileNumber}</Text>
+                  </TouchableOpacity>
                 )
               })
             ) :(
@@ -108,7 +97,29 @@ const SearchCustomer = () => {
             )
           }
       </View>
-      
+      <Modal isVisible={isVisible} onBackdropPress={()=>{setIsVisible(false)}}>
+          <View style={{height:hp(55),backgroundColor:'#fff',marginHorizontal:'3%',marginBottom:'20%', borderRadius:3}}>
+            <TouchableOpacity onPress={()=>{setIsVisible(false)}} style={{flex:0.1,alignSelf:'flex-end',margin:'2%'}}>
+              <AntDesign
+                  name='close'
+                  size={31}
+                  color='#004e92'
+                />
+            </TouchableOpacity>
+            <View style={{flex:0.75,padding:'3%',justifyContent:'center',marginBottom:'5%'}}>
+              {selectedData && Object.keys(selectedData).map((key, id) => (
+                selectedData[key] &&
+                  <View key={id} style={{height:hp(4.5),marginBottom:'1%',justifyContent:'center',paddingLeft:'4%'}}>
+                    <Text style={{fontSize:RFPercentage(2.25),color:'#823391',fontWeight:'600'}}>{key}  :  <Text style={{fontSize:RFPercentage(2.25),color:'#0d3d6e',fontWeight:'600'}}>{selectedData[key]}</Text></Text>
+                  </View>
+                ))
+              }
+            </View>
+            <TouchableOpacity onPress={()=>{setIsVisible(false)}} style={{flex:0.12,backgroundColor:'#3d5a91',justifyContent:'center',marginHorizontal:'25%',marginBottom:'2%',borderRadius:5}}>
+              <Text style={{textAlign:'center',fontSize:RFPercentage(2.75),fontWeight:'500',color:'#fff'}}>Close</Text>
+            </TouchableOpacity>
+          </View>
+      </Modal>
     </View>
   )
 }
