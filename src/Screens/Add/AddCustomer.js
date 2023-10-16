@@ -13,19 +13,18 @@ const AddCustomer = () => {
   const dispatch=useDispatch();
 
   const investmentData = useSelector((state)=> state.Home.customerDetails)
-  console.log(investmentData,'usu')
   const [tempData,setTempData] = useState()
   const [isVisible,setIsVisible] = useState(false)
 
   const formData ={
     Name:'',
     Address:'',
-    mobileNumber:'',
+    MobileNumber:'',
     Nominee:'',
-    totalAmount:'',
-    interestRate:'',
-    surityDetails:'',
-    otherDetails:'',
+    TotalAmount:'',
+    InterestRate:'',
+    SurityDetails:'',
+    OtherDetails:'',
     Date:''
   }
   
