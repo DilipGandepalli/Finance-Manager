@@ -5,12 +5,12 @@ import Modal from "react-native-modal";
 import AntDesign from 'react-native-vector-icons/AntDesign'
 
 
-const AddCustomer = ({isVisible,closeModal}) => {
+const CustomModal = ({isVisible,closeModal,height}) => {
 
   return (
     <View style={{}}>
-        <Modal isVisible={isVisible} isClosable={closeModal} >
-          <View style={{height:hp(80),backgroundColor:'#fff',marginBottom:'18%',marginHorizontal:'2%',borderRadius:5}}>
+        <Modal isVisible={isVisible} isClosable={closeModal} onBackdropPress={closeModal}>
+          <View style={{height:hp(height),backgroundColor:'#fff',marginHorizontal:'5%',borderRadius:5,marginBottom:'12%'}}>
             <TouchableOpacity height={hp(2)} onPress={closeModal} style={{alignSelf:'flex-end',padding:'2.5%'}}>
               <AntDesign
                 name='close'
@@ -24,6 +24,6 @@ const AddCustomer = ({isVisible,closeModal}) => {
   )
 }
 
-export default AddCustomer
+export default CustomModal
 
 const styles = StyleSheet.create({})
