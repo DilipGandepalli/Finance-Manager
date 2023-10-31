@@ -1,4 +1,4 @@
-import { StyleSheet, View,TouchableOpacity, } from 'react-native'
+import { StyleSheet, View,TouchableOpacity, Text, } from 'react-native'
 import React from 'react';
 import { heightPercentageToDP as hp,widthPercentageToDP as wp} from 'react-native-responsive-screen'
 import Modal from "react-native-modal";
@@ -17,6 +17,7 @@ const CustomModal = ({isVisible,closeModal,height}) => {
                 size={30}
                 color='#004e92'
               />
+              <Text>Hello Dilip</Text>
             </TouchableOpacity>
           </View>
         </Modal>
