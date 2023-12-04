@@ -16,8 +16,8 @@ const CustomModal = ({isVisible,closeModal,height}) => {
                 name='close'
                 size={30}
                 color='#004e92'
-              />
-              <Text>Hello Dilip Gandepalli</Text>
+              /> 
+              <Text>Hello Dilip Gandepalli   </Text>
             </TouchableOpacity>
           </View>
         </Modal>
